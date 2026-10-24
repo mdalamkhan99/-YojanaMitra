@@ -1,0 +1,5 @@
+import {Prisma,type PrismaClient} from '@prisma/client';
+const jobWords=/\b(job|jobs|recruit|recruitment|vacanc(?:y|ies)|post|posts|exam|examination|admit card|result|fee|fees|apply|application|notification|government job|naukri|bharti|eligibility|selection|documents|deadline|closing|track)\b/i;
+export const isJobQuestion=(question:string)=>jobWords.test(question);
+const terms=(q:string)=>q.toLowerCase().replace(/[^a-z0-9 ]/g,' ').split(/\s+/).filter(x=>x.length>2).slice(0,12);
+export async function retrieveJobs(db:PrismaClient,question:string){const words=terms(question);if(!words.length)return[];const expr=words.map(w=>`"${w.replace(/"/g,'""')}"*`).join(' OR ');let ids:string[]=[];try{const hits=await db.$queryRaw<Array<{jobPostId:string}>>(Prisma.sql`SELECT jobPostId FROM JobSearch WHERE JobSearch MATCH ${expr} ORDER BY bm25(JobSearch) LIMIT 5`);ids=hits.map(h=>h.jobPostId)}catch{}if(!ids.length)return db.jobPost.findMany({where:{status:'published',OR:words.flatMap(w=>[{title:{contains:w}},{organization:{contains:w}},{department:{contains:w}},{qualificationText:{contains:w}}])},take:5});return db.jobPost.findMany({where:{id:{in:ids},status:'published'}})}

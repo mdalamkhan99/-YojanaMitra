@@ -1,0 +1,171 @@
+{
+  "input": "C:\\Users\\Lenovo\\OneDrive\\Documents\\Mini Project Report Format 2026-27 (SEM-I).docx",
+  "fonts_by_char_count": {
+    "Times New Roman": 7029,
+    "Cambria": 25
+  },
+  "direct_run_formatting_runs": 543,
+  "direct_paragraph_formatting_paragraphs": 360,
+  "heading_like_paragraphs_not_heading_style": [
+    {
+      "para_index": 2,
+      "text": "(Entire Page \u2013 Center Alignment)",
+      "style": "Normal"
+    },
+    {
+      "para_index": 4,
+      "text": "Marathwada Shikshan Prasarak Mandal\u2019s (13TNR)",
+      "style": "Normal"
+    },
+    {
+      "para_index": 5,
+      "text": "Deogiri Institute of Engineering and Management Studies,",
+      "style": "Normal"
+    },
+    {
+      "para_index": 6,
+      "text": "Chatrapati Sambhajinagar (14 TNRB)",
+      "style": "Normal"
+    },
+    {
+      "para_index": 9,
+      "text": "Mini Project Report",
+      "style": "Normal"
+    },
+    {
+      "para_index": 11,
+      "text": "on (14TNRB)",
+      "style": "Normal"
+    },
+    {
+      "para_index": 13,
+      "text": "Mini Project Name (18 TNRB)",
+      "style": "Normal"
+    },
+    {
+      "para_index": 16,
+      "text": "Submitted By (13 TNR)",
+      "style": "Normal"
+    },
+    {
+      "para_index": 18,
+      "text": "Name of the Student (Roll No) (TNR-14)",
+      "style": "Normal"
+    },
+    {
+      "para_index": 19,
+      "text": "Name of the Student (Roll No) (TNR-14)",
+      "style": "Normal"
+    },
+    {
+      "para_index": 20,
+      "text": "Name of the Student (Roll No) (TNR-14)",
+      "style": "Normal"
+    },
+    {
+      "para_index": 23,
+      "text": "Dr. Babasaheb Ambedkar Technological University (TNR-14)",
+      "style": "Normal"
+    },
+    {
+      "para_index": 24,
+      "text": "Lonere (M.S.) (TNR-14)",
+      "style": "Normal"
+    },
+    {
+      "para_index": 31,
+      "text": "Department of CSE (AI&ML) (TNR-16)",
+      "style": "Normal"
+    },
+    {
+      "para_index": 32,
+      "text": "   Deogiri Institute of Engineering and Management Studies,",
+      "style": "Normal"
+    },
+    {
+      "para_index": 33,
+      "text": "Chatrapati Sambhajinagar (14 TNRB)",
+      "style": "Normal"
+    },
+    {
+      "para_index": 34,
+      "text": "(2026- 2027) (TNR-16",
+      "style": "Normal"
+    },
+    {
+      "para_index": 35,
+      "text": "Mini Project Report",
+      "style": "Normal"
+    },
+    {
+      "para_index": 36,
+      "text": "on (14TNRB)",
+      "style": "Normal"
+    },
+    {
+      "para_index": 38,
+      "text": "Mini Project Name (18 TNRB)",
+      "style": "Normal"
+    }
+  ],
+  "examples": {
+    "direct_paragraph_formatting": [
+      {
+        "para_index": 1,
+        "text": "",
+        "style": "Normal"
+      },
+      {
+        "para_index": 2,
+        "text": "(Entire Page \u2013 Center Alignment)",
+        "style": "Normal"
+      },
+      {
+        "para_index": 3,
+        "text": "",
+        "style": "Normal"
+      },
+      {
+        "para_index": 4,
+        "text": "Marathwada Shikshan Prasarak Mandal\u2019s (13TNR)",
+        "style": "Normal"
+      },
+      {
+        "para_index": 5,
+        "text": "Deogiri Institute of Engineering and Management Studies,",
+        "style": "Normal"
+      }
+    ],
+    "direct_run_formatting": [
+      {
+        "para_index": 2,
+        "run_text": "(Entire Page \u2013 Center Alignment)",
+        "style": "Normal"
+      },
+      {
+        "para_index": 4,
+        "run_text": "Marathwada Shikshan Prasarak ",
+        "style": "Normal"
+      },
+      {
+        "para_index": 4,
+        "run_text": "Mandal\u2019s",
+        "style": "Normal"
+      },
+      {
+        "para_index": 4,
+        "run_text": " (",
+        "style": "Normal"
+      },
+      {
+        "para_index": 4,
+        "run_text": "13TNR)",
+        "style": "Normal"
+      }
+    ]
+  },
+  "notes": [
+    "Direct formatting is not always wrong, but it often causes inconsistent output when templates change.",
+    "Heading-like paragraphs not using Heading styles can break TOC and accessibility."
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "name": "@yojanamitra/shared",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./api-routes": { "types": "./api-routes.d.ts", "default": "./api-routes.js" }
+  }
+}

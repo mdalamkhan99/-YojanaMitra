@@ -1,0 +1,18 @@
+services:
+  app:
+    build: .
+    env_file: .env
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: file:/var/lib/yojanamitra/app.db
+      CLIENT_ORIGIN: ${CLIENT_ORIGIN:?Set CLIENT_ORIGIN in .env}
+      TRUST_PROXY: "true"
+      BACKUP_DIR: /var/lib/yojanamitra/backups
+      POSTGRES_ENABLED: "false"
+    ports:
+      - "127.0.0.1:4000:4000"
+    volumes:
+      - yojanamitra-data:/var/lib/yojanamitra
+    restart: unless-stopped
+volumes:
+  yojanamitra-data:

@@ -1,0 +1,4 @@
+import '../src/load-env.js'; import { PrismaClient } from '@prisma/client'; import argon2 from 'argon2';
+const db=new PrismaClient();
+async function main(){const email=process.env.ADMIN_EMAIL,password=process.env.ADMIN_PASSWORD;if(!email||!password||password.length<12||!/[A-Z]/.test(password)||!/[a-z]/.test(password)||!/[0-9]/.test(password)||!/[\W_]/.test(password))throw new Error('Set ADMIN_EMAIL and a strong ADMIN_PASSWORD (12+ characters with upper/lowercase, number, symbol) in .env.');const hash=await argon2.hash(password);await db.user.upsert({where:{email:email.toLowerCase()},create:{email:email.toLowerCase(),passwordHash:hash,role:'ADMIN',profile:{create:{}}},update:{passwordHash:hash,role:'ADMIN'}});console.log(`Admin account ready: ${email}`);}
+main().finally(()=>db.$disconnect());

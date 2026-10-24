@@ -1,0 +1,239 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  STUDENT
+  ADMIN
+}
+
+enum SchemeType {
+  scholarship
+  govt_job
+  private_job
+  internship
+}
+
+enum ApplicationStatus {
+  Planned
+  Applied
+  Under_review
+  Approved
+  Rejected
+}
+
+model User {
+  id           String         @id @default(cuid())
+  email        String         @unique
+  passwordHash String
+  role         Role           @default(STUDENT)
+  createdAt    DateTime       @default(now())
+  profile      Profile?
+  applications Application[]
+  bookmarks    Bookmark[]
+  documents    UserDocument[]
+  aiUsage      AiUsage[]
+  chatSessions ChatSession[]
+  jobBookmarks JobBookmark[]
+  jobApplications JobApplication[]
+}
+
+model Profile {
+  id           String    @id @default(cuid())
+  userId       String    @unique
+  name         String?
+  dob          DateTime?
+  gender       String?
+  category     String?
+  annualIncome Int?
+  state        String?
+  district     String?
+  domicile     Boolean?
+  course       String?
+  courseType   String?
+  year         Int?
+  college      String?
+  percentage   Float?
+  disability   Boolean?
+  language     String    @default("en")
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Scheme {
+  id           String        @id @default(cuid())
+  title        String
+  type         SchemeType
+  provider     String
+  rules        Json
+  benefits     String
+  documents    Json
+  deadline     String        @default("Check official site")
+  officialLink String
+  sourceUrl    String
+  lastVerified DateTime?
+  verified     Boolean       @default(false)
+  verifiedOn   DateTime?
+  verifyNotice String        @default("Verify on official portal")
+  applications Application[]
+  bookmarks    Bookmark[]
+  aiCache      AiCache[]
+
+  @@index([type])
+  @@index([title])
+}
+
+model Application {
+  id        String            @id @default(cuid())
+  userId    String
+  schemeId  String
+  status    ApplicationStatus @default(Planned)
+  deadline  String?
+  notes     String?
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  scheme    Scheme            @relation(fields: [schemeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, schemeId])
+}
+
+model Bookmark {
+  id       String @id @default(cuid())
+  userId   String
+  schemeId String
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  scheme   Scheme @relation(fields: [schemeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, schemeId])
+}
+
+model UserDocument {
+  id          String  @id @default(cuid())
+  userId      String
+  name        String
+  hasDocument Boolean @default(false)
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, name])
+}
+
+model AiUsage {
+  id     String @id @default(cuid())
+  userId String
+  day    String
+  count  Int    @default(0)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, day])
+}
+
+model AiCache {
+  id           String @id @default(cuid())
+  schemeId     String
+  language     String
+  questionHash String
+  answer       String
+  scheme       Scheme @relation(fields: [schemeId], references: [id], onDelete: Cascade)
+
+  @@unique([schemeId, language, questionHash])
+}
+
+model ChatSession {
+  id        String        @id @default(cuid())
+  userId    String
+  title     String        @default("New chat")
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages  ChatMessage[]
+
+  @@index([userId, updatedAt])
+}
+
+model ChatMessage {
+  id        String      @id @default(cuid())
+  sessionId String
+  role      String
+  text      String
+  sources   Json
+  createdAt DateTime    @default(now())
+  session   ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId, createdAt])
+}
+
+model KnowledgeChunk {
+  id           String    @id @default(cuid())
+  topic        String
+  language     String    @default("en")
+  text         String
+  sourceUrl    String
+  sourceName   String
+  lastReviewed DateTime?
+  reviewStatus String    @default("unreviewed")
+  fetchedAt    DateTime  @default(now())
+
+  @@index([topic, language])
+}
+
+model JobPost {
+  id                    String   @id @default(cuid())
+  title                 String
+  organization           String
+  department             String?
+  postNames              Json
+  vacancies              Int?
+  location               String?
+  state                  String?
+  qualification          Json
+  qualificationText      String?
+  ageLimit               Json
+  applicationFee         Json
+  importantDates         Json
+  howToApply             Json
+  documentsRequired      Json
+  selectionProcess       Json
+  officialNotificationUrl String?
+  applyUrl               String?
+  sourceName             String
+  sourceUrls             Json
+  sourceQuotes           Json
+  lastChecked            DateTime?
+  status                 String   @default("draft")
+  verified               Boolean  @default(false)
+  evergreen              Boolean  @default(false)
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+  bookmarks              JobBookmark[]
+  applications           JobApplication[]
+
+  @@index([status, lastChecked])
+  @@index([organization, state])
+}
+
+model JobBookmark {
+  id        String  @id @default(cuid())
+  userId    String
+  jobPostId String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobPost   JobPost @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
+  @@unique([userId, jobPostId])
+}
+
+model JobApplication {
+  id        String            @id @default(cuid())
+  userId    String
+  jobPostId String
+  status    ApplicationStatus @default(Planned)
+  notes     String?
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  user      User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobPost   JobPost             @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
+  @@unique([userId, jobPostId])
+}

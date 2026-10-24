@@ -1,0 +1,2 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {evaluateJobEligibility} from './jobs-eligibility.js';
+test('job age uses cutoff date and category relaxations deterministically',()=>{const job={ageLimit:{min:18,max:30,cutoffDate:'2026-01-01',categoryRelaxations:{OBC:3}},qualification:{courses:['B.A.']}};const profile={dob:'1992-06-01',category:'OBC',course:'B.A.'};assert.equal(evaluateJobEligibility(profile,job).status,'Eligible');assert.equal(evaluateJobEligibility({...profile,category:'Open'},job).status,'Not eligible')});
